@@ -10,9 +10,10 @@ class AnimalTest {
     void move()
     {
         //given:
-        Animal orientationTest = new Animal();
-        Animal movingTest = new Animal();
-        Animal boundsTest = new Animal();
+        IWorldMap map = new RectangularMap(50, 50);
+        Animal orientationTest = new Animal(map, new Vector2d(0, 0));
+        Animal movingTest = new Animal(map, new Vector2d(10, 10));
+        Animal boundsTest = new Animal(map, new Vector2d(0, 48));
 
         //when:
         orientationTest.move(MoveDirection.RIGHT);
@@ -25,8 +26,8 @@ class AnimalTest {
         boundsTest.move(MoveDirection.FORWARD);
 
         //then:
-        assertEquals(orientationTest.toString(), "Position: (2,2), orientation: Wschód");
-        assertEquals(movingTest.isAt(new Vector2d(2, 4)), true);
-        assertEquals(boundsTest.isAt(new Vector2d(2, 4)), true);
+        assertEquals("E", orientationTest.toString());
+        assertEquals(true, movingTest.isAt(new Vector2d(10, 12)));
+        assertEquals(true, boundsTest.isAt(new Vector2d(0, 49)));
     }
 }

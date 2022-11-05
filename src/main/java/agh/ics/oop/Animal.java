@@ -4,17 +4,37 @@ public class Animal
 {
     private MapDirection orientation;
     private Vector2d position;
+    private IWorldMap map;
 
-    public Animal()
+    public Animal(IWorldMap map)
     {
         orientation = MapDirection.NORTH;
-        position = new Vector2d(2, 2);
+        this.map = map;
+        this.position = new Vector2d(0, 0);
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition)
+    {
+        orientation = MapDirection.NORTH;
+        this.map = map;
+        this.position = initialPosition;
+    }
+
+    public Vector2d position()
+    {
+        return position;
     }
 
     @Override
     public String toString()
     {
-        return "Position: " + position + ", orientation: " + orientation;
+        return switch(orientation)
+                {
+                    case NORTH -> "N";
+                    case SOUTH -> "S";
+                    case EAST -> "E";
+                    case WEST -> "W";
+                };
     }
 
     public boolean isAt(Vector2d position)
@@ -24,27 +44,24 @@ public class Animal
 
     public void move(MoveDirection direction)
     {
-        Vector2d topRight = new Vector2d(4, 4);
-        Vector2d bottomLeft = new Vector2d(0, 0);
-
         switch(direction)
         {
             case RIGHT -> this.orientation = this.orientation.next();
             case LEFT -> this.orientation = this.orientation.previous();
-            case FORWARD ->
+            case FORWARD, BACKWARD ->
             {
-                Vector2d newPosition = this.position.add(orientation.toUnitVector());
+                Vector2d newPosition = null;
 
-                if (newPosition.follows(bottomLeft) && newPosition.precedes(topRight))
+                if (direction == MoveDirection.FORWARD)
                 {
-                    this.position = newPosition;
+                    newPosition = this.position.add(orientation.toUnitVector());
                 }
-            }
-            case BACKWARD ->
-            {
-                Vector2d newPosition = this.position.substract(orientation.toUnitVector());
+                else
+                {
+                    newPosition = this.position.subtract(orientation.toUnitVector());
+                }
 
-                if (newPosition.follows(bottomLeft) && newPosition.precedes(topRight))
+                if (map.canMoveTo(newPosition))
                 {
                     this.position = newPosition;
                 }

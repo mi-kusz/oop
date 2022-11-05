@@ -16,7 +16,7 @@ class Vector2dTest {
         String name = vector2d.toString();
 
         //then:
-        assertEquals(name, "(1,2)");
+        assertEquals("(1,2)", name);
     }
 
     @Test
@@ -33,9 +33,9 @@ class Vector2dTest {
         boolean stringResult = a.equals(s);
 
         //then:
-        assertEquals(selfResult, true);
-        assertEquals(vectorResult, true);
-        assertEquals(stringResult, false);
+        assertEquals(true, selfResult);
+        assertEquals(true, vectorResult);
+        assertEquals(false, stringResult);
     }
 
     @Test
@@ -52,9 +52,9 @@ class Vector2dTest {
         boolean lowerResult = a.precedes(c);
 
         //then:
-        assertEquals(selfResult, true);
-        assertEquals(higherResult, true);
-        assertEquals(lowerResult, false);
+        assertEquals(true, selfResult);
+        assertEquals(true, higherResult);
+        assertEquals(false, lowerResult);
     }
 
     @Test
@@ -71,9 +71,9 @@ class Vector2dTest {
         boolean lowerResult = a.follows(c);
 
         //then:
-        assertEquals(selfResult, true);
-        assertEquals(higherResult, false);
-        assertEquals(lowerResult, true);
+        assertEquals(true, selfResult);
+        assertEquals(false, higherResult);
+        assertEquals(true, lowerResult);
 
     }
 
@@ -89,7 +89,7 @@ class Vector2dTest {
 
         //then:
         Vector2d answer = new Vector2d(200, 100);
-        assertEquals(result, answer);
+        assertEquals(answer, result);
     }
 
     @Test
@@ -104,7 +104,7 @@ class Vector2dTest {
 
         //then:
         Vector2d answer = new Vector2d(1, -50);
-        assertEquals(result, answer);
+        assertEquals(answer, result);
     }
 
     @Test
@@ -119,22 +119,22 @@ class Vector2dTest {
 
         //then:
         Vector2d answer = new Vector2d(110, 220);
-        assertEquals(result, answer);
+        assertEquals(answer, result);
     }
 
     @Test
-    void substract()
+    void subtract()
     {
         //given:
         Vector2d a = new Vector2d(10, 20);
         Vector2d b = new Vector2d(100, 200);
 
         //when:
-        Vector2d result = a.substract(b);
+        Vector2d result = a.subtract(b);
 
         //then:
         Vector2d answer = new Vector2d(-90, -180);
-        assertEquals(result, answer);
+        assertEquals(answer, result);
     }
 
     @Test
@@ -148,6 +148,6 @@ class Vector2dTest {
 
         //then:
         Vector2d c = new Vector2d(-1, -2);
-        assertEquals(b, c);
+        assertEquals(c, b);
     }
 }

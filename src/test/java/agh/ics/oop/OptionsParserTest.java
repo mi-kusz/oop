@@ -19,6 +19,6 @@ class OptionsParserTest {
         MoveDirection[] answer = {MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT,
                 MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.BACKWARD};
 
-        assertArrayEquals(result, answer);
+        assertArrayEquals(answer, result);
     }
 }

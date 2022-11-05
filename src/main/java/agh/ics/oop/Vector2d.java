@@ -4,13 +4,23 @@ import java.util.Objects;
 
 public class Vector2d
 {
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
 
     public Vector2d(int x, int y)
     {
         this.x = x;
         this.y = y;
+    }
+
+    public int x()
+    {
+        return x;
+    }
+
+    public int y()
+    {
+        return y;
     }
 
     @Override
@@ -53,7 +63,7 @@ public class Vector2d
         return new Vector2d(sumX, sumY);
     }
 
-    public Vector2d substract(Vector2d other)
+    public Vector2d subtract(Vector2d other)
     {
         int differenceX = this.x - other.x;
         int differenceY = this.y - other.y;
