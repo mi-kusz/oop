@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RectangularMapTest {
+class GrassFieldTest {
 
     @Test
     void canMoveTo()
     {
         //given:
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField map = new GrassField(5);
         Vector2d position1 = new Vector2d(2, 2);
         Vector2d position2 = new Vector2d(5, 100);
 
@@ -20,14 +20,14 @@ class RectangularMapTest {
 
         //then:
         assertEquals(true, result1);
-        assertEquals(false, result2);
+        assertEquals(true, result2);
     }
 
     @Test
     void place()
     {
         //given:
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField map = new GrassField(5);
         Vector2d animalPosition1 = new Vector2d(1, 1);
         Animal animal1 = new Animal(map, animalPosition1);
         Vector2d animalPosition2 = new Vector2d(1, 1);
@@ -47,10 +47,10 @@ class RectangularMapTest {
     {
         //given:
         Vector2d position1 = new Vector2d(1, 1);
-        Vector2d position2 = new Vector2d(3, 3);
+        Vector2d position2 = new Vector2d(50, 50);
 
         //when:
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField map = new GrassField(5);
         Vector2d animalPosition = new Vector2d(1, 1);
         Animal animal = new Animal(map, animalPosition);
         map.place(animal);
@@ -65,10 +65,10 @@ class RectangularMapTest {
     {
         //given:
         Vector2d position1 = new Vector2d(1, 1);
-        Vector2d position2 = new Vector2d(2, 2);
+        Vector2d position2 = new Vector2d(100, 500);
 
         //when:
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField map = new GrassField(10);
         Vector2d animalPosition = new Vector2d(1, 1);
         Animal animal = new Animal(map, animalPosition);
         map.place(animal);
@@ -82,25 +82,41 @@ class RectangularMapTest {
     void calculateTopRight()
     {
         //given:
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField map = new GrassField(10);
 
         //when:
+        Vector2d animalPosition1 = new Vector2d(50, 30);
+        Animal animal1 = new Animal(map, animalPosition1);
+        map.place(animal1);
+
+        Vector2d animalPosition2 = new Vector2d(30, 50);
+        Animal animal2 = new Animal(map, animalPosition2);
+        map.place(animal2);
+
         Vector2d result = map.calculateTopRight();
 
         //then:
-        assertEquals(new Vector2d(4, 4), result);
+        assertEquals(new Vector2d(50, 50), result);
     }
 
     @Test
     void calculateBottomLeft()
     {
         //given:
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField map = new GrassField(50);
 
         //when:
+        Vector2d animalPosition1 = new Vector2d(50, 30);
+        Animal animal1 = new Animal(map, animalPosition1);
+        map.place(animal1);
+
+        Vector2d animalPosition2 = new Vector2d(-30, -50);
+        Animal animal2 = new Animal(map, animalPosition2);
+        map.place(animal2);
+
         Vector2d result = map.calculateBottomLeft();
 
         //then:
-        assertEquals(new Vector2d(0, 0), result);
+        assertEquals(new Vector2d(-30, -50), result);
     }
 }
