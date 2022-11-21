@@ -6,7 +6,7 @@ public class SimulationEngine implements IEngine
     private IWorldMap map;
     private Animal[] animals;
 
-    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions)
+    public SimulationEngine(MoveDirection[] moves, AbstractWorldMap map, Vector2d[] positions)
     {
         this.moves = moves;
         this.map = map;
@@ -16,6 +16,7 @@ public class SimulationEngine implements IEngine
         for (int i = 0; i < positions.length; ++i)
         {
             animals[i] = new Animal(map, positions[i]);
+            animals[i].addObserver(map);
             map.place(animals[i]);
         }
     }

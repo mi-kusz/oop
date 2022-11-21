@@ -1,13 +1,15 @@
 package agh.ics.oop;
 
-import java.util.List;
+import java.util.Map;
 
-public abstract class AbstractWorldMap implements IWorldMap
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver
 {
-    protected List<Animal> animals;
+    protected Map<Vector2d, Animal> animals;
 
     protected Vector2d topRight;
     protected Vector2d bottomLeft;
+
+    protected MapVisualiser visualiser;
 
     @Override
     public boolean canMoveTo(Vector2d position)
@@ -16,43 +18,28 @@ public abstract class AbstractWorldMap implements IWorldMap
     }
 
     @Override
-    public boolean place(Animal animal)
+    public void place(Animal animal)
     {
         if (isOccupied(animal.position()))
         {
-            return false;
+            throw new IllegalArgumentException(animal.position() + " is already taken");
         }
-
-        animals.add(animal);
-        return true;
+        else
+        {
+            animals.put(animal.position(), animal);
+        }
     }
 
     @Override
     public boolean isOccupied(Vector2d position)
     {
-        for (Animal a : animals)
-        {
-            if (a.isAt(position))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return animalOccupies(position);
     }
 
     @Override
     public Object objectAt(Vector2d position)
     {
-        for (Animal a : animals)
-        {
-            if (a.isAt(position))
-            {
-                return a;
-            }
-        }
-
-        return null;
+        return animals.get(position);
     }
 
     abstract protected Vector2d calculateTopRight();
@@ -61,7 +48,21 @@ public abstract class AbstractWorldMap implements IWorldMap
     @Override
     public String toString()
     {
-        MapVisualiser mapVisualiser = new MapVisualiser(this);
-        return mapVisualiser.draw(calculateBottomLeft(), calculateTopRight());
+        return visualiser.draw(calculateBottomLeft(), calculateTopRight());
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition)
+    {
+        Animal animal = animals.get(oldPosition);
+        animals.remove(oldPosition);
+        animals.put(newPosition, animal);
+    }
+
+    protected boolean animalOccupies(Vector2d position)
+    {
+        Animal animal = animals.get(position);
+
+        return animal != null;
     }
 }

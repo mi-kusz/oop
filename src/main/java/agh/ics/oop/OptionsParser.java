@@ -1,31 +1,23 @@
 package agh.ics.oop;
 
-import java.util.Arrays;
-
 public class OptionsParser
 {
     public MoveDirection[] parse(String[] input)
     {
         MoveDirection[] result = new MoveDirection[input.length];
-        int i = 0;
 
-        for (String s : input)
+        for (int i = 0; i < input.length; ++i)
         {
-            result[i] = switch(s)
+            result[i] = switch(input[i])
             {
                 case "f", "forward" -> MoveDirection.FORWARD;
                 case "b", "backward" -> MoveDirection.BACKWARD;
                 case "r", "right" -> MoveDirection.RIGHT;
                 case "l", "left" -> MoveDirection.LEFT;
-                default -> null;
+                default -> throw new IllegalArgumentException(input[i] + " is not legal move specification");
             };
-
-            if (result[i] != null)
-            {
-                ++i;
-            }
         }
 
-        return Arrays.copyOfRange(result, 0, i);
+        return result;
     }
 }

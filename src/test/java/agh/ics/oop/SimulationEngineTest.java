@@ -10,8 +10,8 @@ class SimulationEngineTest {
     void run()
     {
         //given:
-        IWorldMap map1 = new RectangularMap(5, 5);
-        IWorldMap map2 = new RectangularMap(5, 5);
+        AbstractWorldMap map1 = new RectangularMap(5, 5);
+        AbstractWorldMap map2 = new RectangularMap(5, 5);
         Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
         MoveDirection[] directions1 = {MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.LEFT};
         MoveDirection[] directions2 = {MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD,

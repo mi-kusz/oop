@@ -34,12 +34,29 @@ class GrassFieldTest {
         Animal animal2 = new Animal(map, animalPosition2);
 
         //when:
-        boolean result1 = map.place(animal1);
-        boolean result2 = map.place(animal2);
+        boolean exception1Happened = false;
+        boolean exception2Happened = false;
+        try
+        {
+            map.place(animal1);
+        }
+        catch (IllegalArgumentException e)
+        {
+            exception1Happened = true;
+        }
+
+        try
+        {
+            map.place(animal2);
+        }
+        catch (IllegalArgumentException e)
+        {
+            exception2Happened = true;
+        }
 
         //then:
-        assertEquals(true, result1);
-        assertEquals(false, result2);
+        assertEquals(false, exception1Happened);
+        assertEquals(true, exception2Happened);
     }
 
     @Test

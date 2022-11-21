@@ -13,12 +13,17 @@ class OptionsParserTest {
         String[] charactersArray = {"f", "backward", "r", "left", "sasda", "aasd", "right", "f", "fasdas", "b"};
 
         //when:
-        MoveDirection[] result = new OptionsParser().parse(charactersArray);
+        boolean exceptionHappened = false;
+        try
+        {
+            MoveDirection[] result = new OptionsParser().parse(charactersArray);
+        }
+        catch(IllegalArgumentException e)
+        {
+            exceptionHappened = true;
+        }
 
         //then:
-        MoveDirection[] answer = {MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT,
-                MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.BACKWARD};
-
-        assertArrayEquals(answer, result);
+        assertEquals(true, exceptionHappened);
     }
 }
