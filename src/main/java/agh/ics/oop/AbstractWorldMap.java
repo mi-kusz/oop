@@ -11,6 +11,8 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     protected MapVisualiser visualiser;
 
+    protected MapBoundary boundary;
+
     @Override
     public boolean canMoveTo(Vector2d position)
     {
@@ -20,13 +22,14 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     @Override
     public void place(Animal animal)
     {
-        if (isOccupied(animal.position()))
+        if (isOccupied(animal.getPosition()))
         {
-            throw new IllegalArgumentException(animal.position() + " is already taken");
+            throw new IllegalArgumentException(animal.getPosition() + " is already taken");
         }
         else
         {
-            animals.put(animal.position(), animal);
+            animals.put(animal.getPosition(), animal);
+            notifyMapBoundary(null, animal.getPosition(), animal);
         }
     }
 
@@ -57,6 +60,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         Animal animal = animals.get(oldPosition);
         animals.remove(oldPosition);
         animals.put(newPosition, animal);
+        notifyMapBoundary(oldPosition, newPosition, animal);
     }
 
     protected boolean animalOccupies(Vector2d position)
@@ -64,5 +68,15 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         Animal animal = animals.get(position);
 
         return animal != null;
+    }
+
+    public MapBoundary getBoundary()
+    {
+        return boundary;
+    }
+
+    protected void notifyMapBoundary(Vector2d oldPosition, Vector2d newPosition, IMapElement element)
+    {
+        boundary.notifyMapBoundary(oldPosition, newPosition, element);
     }
 }

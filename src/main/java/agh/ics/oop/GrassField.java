@@ -13,6 +13,8 @@ public class GrassField extends AbstractWorldMap
 
         animals = new HashMap<>();
         grasses = new HashMap<>();
+
+        boundary = new MapBoundary(this);
         addGrass(amount);
 
         visualiser = new MapVisualiser(this);
@@ -56,6 +58,7 @@ public class GrassField extends AbstractWorldMap
             Grass grass = new Grass(pos);
 
             grasses.put(pos, grass);
+            notifyMapBoundary(null, pos, grass);
         }
     }
 
@@ -75,13 +78,14 @@ public class GrassField extends AbstractWorldMap
     @Override
     public void place(Animal animal)
     {
-        if (animalOccupies(animal.position()))
+        if (animalOccupies(animal.getPosition()))
         {
-            throw new IllegalArgumentException(animal.position() + " is already taken");
+            throw new IllegalArgumentException(animal.getPosition() + " is already taken");
         }
         else
         {
-            animals.put(animal.position(), animal);
+            animals.put(animal.getPosition(), animal);
+            notifyMapBoundary(null, animal.getPosition(), animal);
         }
     }
 

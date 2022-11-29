@@ -2,8 +2,9 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class Animal
+public class Animal implements IMapElement
 {
     private MapDirection orientation;
     private Vector2d position;
@@ -24,7 +25,7 @@ public class Animal
         this.observers = new ArrayList<>();
     }
 
-    public Vector2d position()
+    public Vector2d getPosition()
     {
         return position;
     }
@@ -68,8 +69,8 @@ public class Animal
 
                 if (map.canMoveTo(newPosition))
                 {
-                    this.position = newPosition;
                     positionChanged(oldPosition, newPosition);
+                    this.position = newPosition;
                 }
             }
         }
@@ -91,5 +92,20 @@ public class Animal
         {
             observer.positionChanged(oldPosition, newPosition);
         }
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return orientation == animal.orientation && position.equals(animal.position) && map.equals(animal.map) && observers.equals(animal.observers);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(map, observers);
     }
 }
