@@ -1,14 +1,19 @@
 package agh.ics.oop;
 
-public class SimulationEngine implements IEngine
+import agh.ics.oop.gui.App;
+
+public class SimulationEngine implements IEngine, Runnable
 {
     private MoveDirection[] moves;
     private IWorldMap map;
     private Animal[] animals;
+    private App gui;
 
-    public SimulationEngine(MoveDirection[] moves, AbstractWorldMap map, Vector2d[] positions)
+    private int moveDelay;
+
+    public SimulationEngine(AbstractWorldMap map, Vector2d[] positions)
     {
-        this.moves = moves;
+        moveDelay = 1000;
         this.map = map;
 
         animals = new Animal[positions.length];
@@ -21,12 +26,38 @@ public class SimulationEngine implements IEngine
         }
     }
 
+    public void setMoves(MoveDirection[] moves)
+    {
+        this.moves = moves;
+    }
+
     @Override
     public void run()
     {
         for (int i = 0; i < moves.length; ++i)
         {
+            try
+            {
+                Thread.sleep(moveDelay);
+            }
+            catch (InterruptedException e)
+            {
+                System.out.println("Przerywanie symulacji");
+                System.exit(2);
+            }
+
             animals[i % animals.length].move(moves[i]);
+            notifyGui();
         }
+    }
+
+    public void setGui(App app)
+    {
+        this.gui = app;
+    }
+
+    private void notifyGui()
+    {
+        gui.guiChanged();
     }
 }

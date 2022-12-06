@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.GuiElementBox;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,6 +11,8 @@ public class Animal implements IMapElement
     private MapDirection orientation;
     private Vector2d position;
     private IWorldMap map;
+
+    private GuiElementBox gui;
 
     private List<IPositionChangeObserver> observers;
 
@@ -23,6 +27,8 @@ public class Animal implements IMapElement
         this.map = map;
         this.position = initialPosition;
         this.observers = new ArrayList<>();
+
+        gui = new GuiElementBox(this);
     }
 
     public Vector2d getPosition()
@@ -51,8 +57,16 @@ public class Animal implements IMapElement
     {
         switch(direction)
         {
-            case RIGHT -> this.orientation = this.orientation.next();
-            case LEFT -> this.orientation = this.orientation.previous();
+            case RIGHT ->
+            {
+                this.orientation = this.orientation.next();
+                guiDirectionChanged();
+            }
+            case LEFT ->
+            {
+                this.orientation = this.orientation.previous();
+                guiDirectionChanged();
+            }
             case FORWARD, BACKWARD ->
             {
                 Vector2d oldPosition = this.position;
@@ -71,6 +85,7 @@ public class Animal implements IMapElement
                 {
                     positionChanged(oldPosition, newPosition);
                     this.position = newPosition;
+                    guiPositionChanged();
                 }
             }
         }
@@ -107,5 +122,33 @@ public class Animal implements IMapElement
     public int hashCode()
     {
         return Objects.hash(map, observers);
+    }
+
+    @Override
+    public String getResourceName()
+    {
+        return switch(orientation)
+                {
+                    case NORTH -> "src/main/resources/up.png";
+                    case SOUTH -> "src/main/resources/down.png";
+                    case WEST -> "src/main/resources/left.png";
+                    case EAST -> "src/main/resources/right.png";
+                };
+    }
+
+    private void guiPositionChanged()
+    {
+        gui.positionChanged();
+    }
+
+    private void guiDirectionChanged()
+    {
+        gui.directionChanged();
+    }
+
+    @Override
+    public GuiElementBox getGui()
+    {
+        return gui;
     }
 }

@@ -4,6 +4,7 @@
 gradle
 gradlew
 gradlew.bat
+src/main/resources
 
 # Ignore Gradle GUI config
 gradle-app.setting

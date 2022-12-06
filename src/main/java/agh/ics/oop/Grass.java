@@ -1,14 +1,18 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.GuiElementBox;
+
 import java.util.Objects;
 
 public class Grass implements IMapElement
 {
     private Vector2d position;
+    private GuiElementBox gui;
 
     public Grass(Vector2d pos)
     {
         position = pos;
+        gui = new GuiElementBox(this);
     }
 
     public Vector2d getPosition()
@@ -34,5 +38,16 @@ public class Grass implements IMapElement
     @Override
     public int hashCode() {
         return Objects.hash(position);
+    }
+
+    @Override
+    public String getResourceName()
+    {
+        return "src/main/resources/grass.png";
+    }
+    @Override
+    public GuiElementBox getGui()
+    {
+        return gui;
     }
 }
